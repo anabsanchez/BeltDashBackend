@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BeltDash.Application\BeltDash.Application.csproj" />
+    <ProjectReference Include="..\BeltDash.Domain\BeltDash.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
