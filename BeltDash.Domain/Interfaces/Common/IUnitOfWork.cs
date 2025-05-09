@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeltDash.Domain.Interfaces.Common
 {
-    internal interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IUserRepository Users { get; }
         IRoleRepository Roles { get; }
