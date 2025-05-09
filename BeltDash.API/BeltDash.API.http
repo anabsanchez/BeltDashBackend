@@ -1,6 +1,183 @@
-@BeltDash.API_HostAddress = http://localhost:5234
+# --------------------------------------------------
+# BeltDash API - HTTP Tests (Visual Studio IDE)
+# Base URL: http://localhost:5234
+# Usage: Manual assignment of tokens and ID after login
+# --------------------------------------------------
 
-GET {{BeltDash.API_HostAddress}}/weatherforecast/
-Accept: application/json
+### Environment Variables
+@baseUrl = http://localhost:5234
 
-###
+### -------------------------------------------------
+### AUTHENTICATION SECTION
+### -------------------------------------------------
+
+### Register a new user (player)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "player1",
+  "email": "player1@example.com",
+  "password": "Player123!",
+  "confirmPassword": "Player123!"
+}
+
+### Login as player - COPY THE TOKEN FROM THE RESPONSE
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "player1@example.com",
+  "password": "Player123!"
+}
+
+### Manually assign player token and ID (copy from response)
+@player_token = paste_player_token_here
+@player_id = paste_player_id_here
+
+### Login as admin - COPY THE TOKEN FROM THE RESPONSE
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "Admin123!"
+}
+
+### Manually assign admin token and ID (copy from response)
+@admin_token = paste_admin_token_here
+@admin_id = paste_admin_id_here
+
+### -------------------------------------------------
+### SCORES SECTION (before deleting user)
+### -------------------------------------------------
+
+### Create a new score (as player)
+POST {{baseUrl}}/api/v1/scores
+Content-Type: application/json
+Authorization: Bearer {{player_token}}
+
+{
+  "points": 1500
+}
+
+### Create another score (as player)
+POST {{baseUrl}}/api/v1/scores
+Content-Type: application/json
+Authorization: Bearer {{player_token}}
+
+{
+  "points": 2700
+}
+
+### Get paginated scores (without authentication)
+GET {{baseUrl}}/api/v1/scores?pageNumber=1&pageSize=10&sortBy=points&ascending=false
+Content-Type: application/json
+
+### Get paginated scores with custom filters
+GET {{baseUrl}}/api/v1/scores?pageNumber=1&pageSize=5&sortBy=createdAt&ascending=true
+Content-Type: application/json
+
+### Get scores of a specific user (as admin)
+GET {{baseUrl}}/api/v1/users/{{player_id}}/scores
+Authorization: Bearer {{admin_token}}
+
+### Get own scores (as player)
+GET {{baseUrl}}/api/v1/users/{{player_id}}/scores
+Authorization: Bearer {{player_token}}
+
+### -------------------------------------------------
+### USERS SECTION
+### -------------------------------------------------
+
+### Get all users (admin only)
+GET {{baseUrl}}/api/v1/users
+Authorization: Bearer {{admin_token}}
+
+### Get user by ID (as admin)
+GET {{baseUrl}}/api/v1/users/{{player_id}}
+Authorization: Bearer {{admin_token}}
+
+### Get user by ID (as the user themselves)
+GET {{baseUrl}}/api/v1/users/{{player_id}}
+Authorization: Bearer {{player_token}}
+
+### Update user (as the user themselves)
+PUT {{baseUrl}}/api/v1/users/{{player_id}}
+Content-Type: application/json
+Authorization: Bearer {{player_token}}
+
+{
+  "username": "player1_updated",
+  "email": "player1_updated@example.com"
+}
+
+### Update user (as admin)
+PUT {{baseUrl}}/api/v1/users/{{player_id}}
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+  "username": "player1_admin_updated",
+  "email": "player1_admin@example.com"
+}
+
+### Update user status (admin only)
+PATCH {{baseUrl}}/api/v1/users/{{player_id}}/status
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+  "status": 1
+}
+
+### Update user role (admin only)
+PATCH {{baseUrl}}/api/v1/users/{{player_id}}/role
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+  "roleId": 2
+}
+
+### Delete user (admin only)
+DELETE {{baseUrl}}/api/v1/users/{{player_id}}
+Authorization: Bearer {{admin_token}}
+
+### -------------------------------------------------
+### ROLES SECTION
+### -------------------------------------------------
+
+### Get all roles (admin only)
+GET {{baseUrl}}/api/v1/roles
+Authorization: Bearer {{admin_token}}
+
+### -------------------------------------------------
+### ERROR CASE EXAMPLES
+### -------------------------------------------------
+
+### Attempt to access protected resource without token
+GET {{baseUrl}}/api/v1/users
+Content-Type: application/json
+
+### Attempt to create score without authentication
+POST {{baseUrl}}/api/v1/scores
+Content-Type: application/json
+
+{
+  "points": 1000
+}
+
+### Player trying to access admin resource
+GET {{baseUrl}}/api/v1/roles
+Authorization: Bearer {{player_token}}
+
+### Player trying to update another user
+PUT {{baseUrl}}/api/v1/users/{{admin_id}}
+Content-Type: application/json
+Authorization: Bearer {{player_token}}
+
+{
+  "username": "hacked_admin",
+  "email": "hacked@example.com"
+}
