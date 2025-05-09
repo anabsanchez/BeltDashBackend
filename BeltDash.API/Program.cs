@@ -1,6 +1,9 @@
+using BeltDash.Infrastructure.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

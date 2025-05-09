@@ -12,3 +12,4 @@ namespace BeltDash.Domain.Entities
         public ICollection<Score> Scores { get; set; } = new List<Score>();
     }
 }
+ 
