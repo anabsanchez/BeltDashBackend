@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeltDash.Application.DTOs.Auth
 {
-    internal class AuthResponseDto
+    public class AuthResponseDto
     {
         public int UserId { get; set; }
 
