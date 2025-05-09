@@ -1,4 +1,4 @@
-﻿namespace BeltDash.Domain.Entities.Exceptions
+﻿namespace BeltDash.Domain.Exceptions
 {
     public class DomainException : Exception
     {

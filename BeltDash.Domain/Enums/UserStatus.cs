@@ -1,4 +1,4 @@
-﻿namespace BeltDash.Domain.Entities.Enums
+﻿namespace BeltDash.Domain.Enums
 {
     public enum UserStatus
     {
