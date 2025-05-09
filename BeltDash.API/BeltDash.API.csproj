@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BeltDash.Application\BeltDash.Application.csproj" />
+    <ProjectReference Include="..\BeltDash.Infrastructure\BeltDash.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
