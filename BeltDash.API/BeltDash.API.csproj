@@ -1,23 +1,49 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<!-- 
+BeltDash.API.csproj
+This is the main project representing the entry point of the RESTful API.
+It contains controllers, middleware, and web server configuration.
+It uses the Microsoft.NET.Sdk.Web SDK for ASP.NET Core web applications.
+-->
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<!-- 
+	General project properties:
+	- TargetFramework: Specifies .NET 9.0 as the target framework version
+	- ImplicitUsings: Enables implicit using directives to reduce boilerplate code
+	- Nullable: Enables strict nullable reference type checking
+	- GenerateDocumentationFile: Enables generation of the XML documentation file required for Swagger
+	- NoWarn: Suppresses warning 1591 (missing XML comments), useful during development
+	-->
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<!-- 
+	References to external NuGet packages:
+	- Microsoft.AspNetCore.OpenApi: Facilitates integration with OpenAPI for documentation
+	- Microsoft.EntityFrameworkCore.Design: Provides design-time tools for EF Core (migrations, scaffolding)
+	- Swashbuckle.AspNetCore: Enables automatic Swagger documentation generation and UI
+	-->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BeltDash.Application\BeltDash.Application.csproj" />
-    <ProjectReference Include="..\BeltDash.Infrastructure\BeltDash.Infrastructure.csproj" />
-  </ItemGroup>
-
+	<!-- 
+	References to other solution projects:
+	- BeltDash.Application: Contains application logic and services
+	- BeltDash.Infrastructure: Contains data access implementations
+	This implements clean/hexagonal architecture by separating layers
+	-->
+	<ItemGroup>
+		<ProjectReference Include="..\BeltDash.Application\BeltDash.Application.csproj" />
+		<ProjectReference Include="..\BeltDash.Infrastructure\BeltDash.Infrastructure.csproj" />
+	</ItemGroup>
 </Project>

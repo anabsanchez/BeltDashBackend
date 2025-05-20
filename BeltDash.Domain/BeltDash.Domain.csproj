@@ -1,9 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
+﻿<!-- 
+BeltDash.Domain.csproj
+This project represents the core domain layer.
+It contains the main entities, enumerations, exceptions, and business rules.
+It is independent of external frameworks and data access concerns.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+	<!-- 
+	General project properties:
+	- Standard configuration for a .NET 9.0 class library
+	-->
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 </Project>

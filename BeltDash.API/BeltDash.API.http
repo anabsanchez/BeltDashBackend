@@ -1,11 +1,11 @@
 # --------------------------------------------------
 # BeltDash API - HTTP Tests (Visual Studio IDE)
-# Base URL: http://localhost:5234
+# Base URL: http://localhost:5064
 # Usage: Manual assignment of tokens and ID after login
 # --------------------------------------------------
 
 ### Environment Variables
-@baseUrl = http://localhost:5234
+@baseUrl = http://localhost:5064
 
 ### -------------------------------------------------
 ### AUTHENTICATION SECTION
@@ -32,8 +32,8 @@ Content-Type: application/json
 }
 
 ### Manually assign player token and ID (copy from response)
-@player_token = paste_player_token_here
-@player_id = paste_player_id_here
+@player_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJwbGF5ZXIxQGV4YW1wbGUuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InBsYXllcjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJwbGF5ZXIiLCJqdGkiOiI1NDdmMjJkYi1jZTIzLTQ4MDUtODJhNi1mNTI2NDAyZGE0ZmQiLCJleHAiOjE3NDcwODI2ODgsImlzcyI6IkJlbHREYXNoQXBpIiwiYXVkIjoiQmVsdERhc2hDbGllbnQifQ.kmFqZxKlPyWLCsgyAQUIjYlJgfFpcCD-bPefh0GMAW8
+@player_id = 2
 
 ### Login as admin - COPY THE TOKEN FROM THE RESPONSE
 POST {{baseUrl}}/api/v1/auth/login
@@ -45,8 +45,8 @@ Content-Type: application/json
 }
 
 ### Manually assign admin token and ID (copy from response)
-@admin_token = paste_admin_token_here
-@admin_id = paste_admin_id_here
+@admin_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwianRpIjoiOTU2ZGQxZDYtNTUwNC00MjhlLWE1Y2QtM2MxYmJiZWMxODI0IiwiZXhwIjoxNzQ3MDgyOTQxLCJpc3MiOiJCZWx0RGFzaEFwaSIsImF1ZCI6IkJlbHREYXNoQ2xpZW50In0.BVWpS-fGRHQIQri7MjqPmz8Y-p2UlpS1b24K_dZ5L0Q
+@admin_id = 1
 
 ### -------------------------------------------------
 ### SCORES SECTION (before deleting user)
@@ -71,7 +71,7 @@ Authorization: Bearer {{player_token}}
 }
 
 ### Get paginated scores (without authentication)
-GET {{baseUrl}}/api/v1/scores?pageNumber=1&pageSize=10&sortBy=points&ascending=false
+GET {{baseUrl}}/api/v1/scores?pageNumber=2&pageSize=10&sortBy=points&ascending=false
 Content-Type: application/json
 
 ### Get paginated scores with custom filters
