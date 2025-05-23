@@ -1,23 +1,42 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<!-- 
+BeltDash.Infrastructure.csproj
+This project represents the infrastructure layer.
+It implements repositories, external services, and database access.
+Contains Entity Framework Core configuration and migrations.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+	<!-- 
+	General project properties:
+	- Same configuration as the other class library projects
+	-->
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<!-- 
+	References to external NuGet packages:
+	- Microsoft.EntityFrameworkCore: ORM for database access
+	- Microsoft.EntityFrameworkCore.SqlServer: Provider for SQL Server
+	- Microsoft.EntityFrameworkCore.Tools: Tools for migrations and scaffolding
+	-->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BeltDash.Application\BeltDash.Application.csproj" />
-    <ProjectReference Include="..\BeltDash.Domain\BeltDash.Domain.csproj" />
-  </ItemGroup>
-
+	<!-- 
+	References to other projects:
+	- BeltDash.Application: To implement the interfaces defined in the application layer
+	- BeltDash.Domain: To access domain entities
+	-->
+	<ItemGroup>
+		<ProjectReference Include="..\BeltDash.Application\BeltDash.Application.csproj" />
+		<ProjectReference Include="..\BeltDash.Domain\BeltDash.Domain.csproj" />
+	</ItemGroup>
 </Project>
