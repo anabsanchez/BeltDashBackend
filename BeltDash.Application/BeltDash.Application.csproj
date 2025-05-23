@@ -1,0 +1,41 @@
+﻿<!-- 
+BeltDash.Application.csproj
+This project represents the application layer in the architecture.
+It contains business logic, DTOs, service interfaces, and validations.
+Acts as an intermediary between the API and the domain layer.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+	<!-- 
+	General project properties:
+	- Same framework and configurations as the API project
+	-->
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<!-- 
+	References to external NuGet packages:
+	- AutoMapper: For automatic mapping between domain objects and DTOs
+	- BCrypt.Net-Next: For secure password hashing
+	- FluentValidation: To implement declarative and elegant validations
+	- FluentValidation.AspNetCore: Integration with ASP.NET Core validation pipeline
+	- Microsoft.AspNetCore.Authentication.JwtBearer: To implement JWT authentication
+	-->
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="14.0.0" />
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+		<PackageReference Include="FluentValidation" Version="11.11.0" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
+	</ItemGroup>
+
+	<!-- 
+	References to other projects:
+	- BeltDash.Domain: The application layer depends directly on the domain layer
+	-->
+	<ItemGroup>
+		<ProjectReference Include="..\BeltDash.Domain\BeltDash.Domain.csproj" />
+	</ItemGroup>
+</Project>
