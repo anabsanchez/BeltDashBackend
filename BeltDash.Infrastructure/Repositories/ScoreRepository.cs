@@ -61,50 +61,41 @@ namespace BeltDash.Infrastructure.Data.Repositories
         /// <returns>Paginated collection of scores</returns>
         public async Task<IEnumerable<Score>> GetPaginatedScoresAsync(int pageNumber, int pageSize, string? sortBy = null, bool ascending = false)
         {
-            // Inicia con todas las puntuaciones, incluyendo información del usuario
-            IQueryable<Score> query = _context.Scores
+            var scores = await _context.Scores
                 .AsNoTracking()
-                .Include(s => s.User);
+                .Include(s => s.User)
+                .ToListAsync();
 
-            // Apply dynamic sorting based on the property name
+            var highestPerUser = scores
+                .GroupBy(s => s.UserId)
+                .Select(g => g.OrderByDescending(s => s.Points).First());
+
             if (!string.IsNullOrEmpty(sortBy))
             {
-                // Use reflection to get the property by name
-                PropertyInfo? property = typeof(Score).GetProperty(
+                var property = typeof(Score).GetProperty(
                     sortBy.First().ToString().ToUpper() + sortBy.Substring(1),
                     BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
                 if (property != null)
                 {
-                    // Apply ascending or descending order as requested
-                    if (ascending)
-                    {
-                        query = query.OrderBy(s => EF.Property<object>(s, property.Name));
-                    }
-                    else
-                    {
-                        query = query.OrderByDescending(s => EF.Property<object>(s, property.Name));
-                    }
+                    highestPerUser = ascending
+                        ? highestPerUser.OrderBy(s => property.GetValue(s))
+                        : highestPerUser.OrderByDescending(s => property.GetValue(s));
                 }
                 else
                 {
-                    // Default sorting if the property is not found
-                    query = ascending
-                        ? query.OrderBy(s => s.Points)
-                        : query.OrderByDescending(s => s.Points);
+                    highestPerUser = highestPerUser.OrderByDescending(s => s.Points);
                 }
             }
             else
             {
-                // Default sorting if no sort field is specified
-                query = query.OrderByDescending(s => s.Points);
+                highestPerUser = highestPerUser.OrderByDescending(s => s.Points);
             }
 
-            // Apply pagination to the result
-            return await query
+            return highestPerUser
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync();
+                .ToList();
         }
     }
 }
